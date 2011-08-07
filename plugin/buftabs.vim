@@ -193,6 +193,7 @@ function! Buftabs_show(deleted_buf)
 	let s:list = ''
 	let l:start = 0
 	let l:end = 0
+  let l:count = 1
 	if ! exists("w:from") 
 		let w:from = 0
 	endif
@@ -251,7 +252,11 @@ function! Buftabs_show(deleted_buf)
 				let s:list = s:list . ' '
 			endif
 				
-			let s:list = s:list . l:i . l:buftabs_separator
+			if exists("g:buftabs_sorted_number")
+        let s:list = s:list . l:count . l:buftabs_separator
+      else
+        let s:list = s:list . l:i . l:buftabs_separator
+      endif
 			let s:list = s:list . l:name
 
 			if getbufvar(l:i, "&modified") == 1
@@ -264,6 +269,8 @@ function! Buftabs_show(deleted_buf)
 			else
 				let s:list = s:list . ' '
 			endif
+
+			let l:count = l:count + 1
 		end
 
 		let l:i = l:i + 1
